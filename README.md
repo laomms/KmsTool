@@ -1,1 +1,1 @@
-# KmsTool
+# KMS Activation Tool
