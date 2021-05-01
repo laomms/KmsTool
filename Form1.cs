@@ -1,17 +1,4 @@
-﻿using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Management;
-using System.Runtime.InteropServices;
-using System.Security.AccessControl;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+
 
 namespace KmsTest
 {
@@ -19,11 +6,6 @@ namespace KmsTest
 	{
 		private string SystemVerID = "";
 		private string VersionName = "";
-
-		public Form1()
-		{
-			InitializeComponent();
-		}
 
 		public enum SLIDTYPE
 		{
