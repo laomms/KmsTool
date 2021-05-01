@@ -15,8 +15,8 @@ using System.Windows.Forms;
 
 namespace KmsTest
 {
-    public partial class Form1 : Form
-    {
+	public partial class Form1 : Form
+	{
 		private string SystemVerID = "";
 		private string VersionName = "";
 
@@ -25,7 +25,18 @@ namespace KmsTest
 			InitializeComponent();
 		}
 
-
+		public enum SLIDTYPE
+		{
+			SL_ID_APPLICATION,
+			SL_ID_PRODUCT_SKU,
+			SL_ID_LICENSE_FILE,
+			SL_ID_LICENSE,
+			SL_ID_PKEY,
+			SL_ID_ALL_LICENSES,
+			SL_ID_ALL_LICENSE_FILES,
+			SL_ID_STORE_TOKEN,
+			SL_ID_LAST
+		}
 		public enum SLDATATYPE
 		{
 			SL_DATA_NONE,
@@ -36,13 +47,13 @@ namespace KmsTest
 			SL_DATA_SUM
 		}
 		public struct ChannelEnum
-        {
-            public const string eRtail = "Retail";
-            public const string eOEM = "OEM";
-            public const string eVolume = "Volume";
-            public const string eMAK = "Volume:MAK";
-            public const string eGVLK = "Volume:GVLK";
-        }
+		{
+			public const string eRtail = "Retail";
+			public const string eOEM = "OEM";
+			public const string eVolume = "Volume";
+			public const string eMAK = "Volume:MAK";
+			public const string eGVLK = "Volume:GVLK";
+		}
 
 		[StructLayout(LayoutKind.Sequential)]
 		public class RtlOsVersionInfoExW
@@ -62,7 +73,7 @@ namespace KmsTest
 		}
 
 		[DllImport("pkeyhelper.dll", EntryPoint = "SkuGetProductKeyForEdition", CharSet = CharSet.Auto)]
-        public static extern int SkuGetProductKeyForEdition(int EditionId, string Channel, ref IntPtr pProductKey, ref IntPtr pPfn);
+		public static extern int SkuGetProductKeyForEdition(int EditionId, string Channel, ref IntPtr pProductKey, ref IntPtr pPfn);
 
 		[DllImport("sppc.dll", EntryPoint = "SLOpen", ExactSpelling = false, CharSet = CharSet.Unicode)]
 		public extern static int SLOpen(ref IntPtr hSLC);
@@ -71,7 +82,7 @@ namespace KmsTest
 		public extern static int SLClose(IntPtr hSLC);
 
 		[DllImport("slc.dll", EntryPoint = "SLGetWindowsInformationDWORD", ExactSpelling = false, CharSet = CharSet.Unicode)]
-        public static extern int SLGetWindowsInformationDWORD(string ValueName, ref int Value);
+		public static extern int SLGetWindowsInformationDWORD(string ValueName, ref int Value);
 
 		[DllImport("sppc.dll", EntryPoint = "SLInstallProofOfPurchase", ExactSpelling = false, CharSet = CharSet.Unicode)]
 		public extern static int SLInstallProofOfPurchase(IntPtr hSLC, string pwszPKeyAlgorithm, string pwszPKeyString, uint cbPKeySpecificData, byte[] pbPKeySpecificData, ref Guid PKeyId);
@@ -136,8 +147,6 @@ namespace KmsTest
 				}
 			}
 		}
-
-		#region Load osppc.dll
 		private static string GetOsppcPath()
 		{
 			string OsppcPath = "";
@@ -187,7 +196,6 @@ namespace KmsTest
 			}
 			return false;
 		}
-		#endregion
 		private void AddExclusions2WindowsDefender(string ExcPath)
 		{
 			string sComputerID = null;
@@ -240,43 +248,43 @@ namespace KmsTest
 			}
 		}
 		private void btn_KMS_Click(object sender, EventArgs e)
-        {
-            string productKey = "";
-            int EditionId = 0;
-            int szResult = SLGetWindowsInformationDWORD("Kernel-ProductInfo", ref EditionId);
-            if (szResult == 0)
-            {
-                IntPtr RetProductKey=new IntPtr();
-                IntPtr RetPfn = new IntPtr();
-                szResult = SkuGetProductKeyForEdition(EditionId, ChannelEnum.eGVLK,ref RetProductKey,ref RetPfn);
-                if (szResult == 0)
-                {
-                    productKey = Marshal.PtrToStringUni(RetProductKey);
-                }
-            }
+		{
+			string productKey = "";
+			int EditionId = 0;
+			int szResult = SLGetWindowsInformationDWORD("Kernel-ProductInfo", ref EditionId);
+			if (szResult == 0)
+			{
+				IntPtr RetProductKey = new IntPtr();
+				IntPtr RetPfn = new IntPtr();
+				szResult = SkuGetProductKeyForEdition(EditionId, ChannelEnum.eGVLK, ref RetProductKey, ref RetPfn);
+				if (szResult == 0)
+				{
+					productKey = Marshal.PtrToStringUni(RetProductKey);
+				}
+			}
 
 			Guid pKeyId = new Guid();
-			string nErrorcode = InstallProductKey(productKey,ref pKeyId);
+			string nErrorcode = InstallProductKey(productKey, ref pKeyId);
 			if (string.IsNullOrEmpty(nErrorcode))
 			{
 				AddKMSInfor();
 				nErrorcode = ActivateProductKey(pKeyId);
-				if (string.IsNullOrEmpty(nErrorcode)==false)
-                {
+				if (string.IsNullOrEmpty(nErrorcode) == false)
+				{
 					Console.WriteLine("KMS activation failed, error code: " + nErrorcode);
 				}
 				else
-                {
+				{
 					Console.WriteLine("KMS activation succeeded! Please refresh the license.");
 				}
 			}
 			else
-            {
+			{
 				Console.WriteLine("Installtion productKey failed, error code: " + nErrorcode);
 			}
 
 		}
-		private string InstallProductKey(string ProductKey,ref Guid pKeyId)
+		private string InstallProductKey(string ProductKey, ref Guid pKeyId)
 		{
 			SystemVerID = NativeOsVersion().Major.ToString() + "." + NativeOsVersion().Minor.ToString();
 			string nErrorcode = string.Empty;
@@ -286,15 +294,15 @@ namespace KmsTest
 			{
 				if (Convert.ToDouble(SystemVerID) < 6.2)
 				{
-					hResult = SLInstallProofOfPurchase(hSLC, "msft:rm/algorithm/pkey/2005", ProductKey, 0, null,ref pKeyId);
+					hResult = SLInstallProofOfPurchase(hSLC, "msft:rm/algorithm/pkey/2005", ProductKey, 0, null, ref pKeyId);
 				}
 				else
 				{
-					hResult = SLInstallProofOfPurchase(hSLC, "msft:rm/algorithm/pkey/2009", ProductKey, 0, null,ref pKeyId);
+					hResult = SLInstallProofOfPurchase(hSLC, "msft:rm/algorithm/pkey/2009", ProductKey, 0, null, ref pKeyId);
 				}
 				if (hResult != 0)
 				{
-					nErrorcode = "0x" + hResult.ToString("X8");			
+					nErrorcode = "0x" + hResult.ToString("X8");
 					Console.WriteLine("Installation key failed with error code:" + nErrorcode);
 				}
 			}
@@ -314,17 +322,17 @@ namespace KmsTest
 			uint pcbValue = 0;
 			IntPtr ppbValue = System.IntPtr.Zero;
 			SLDATATYPE peDataType = new SLDATATYPE();
-			hResult = SLGetPKeyInformation(hSLC,ref pKeyId, "ProductSkuId",ref peDataType,ref pcbValue,ref ppbValue);
+			hResult = SLGetPKeyInformation(hSLC, ref pKeyId, "ProductSkuId", ref peDataType, ref pcbValue, ref ppbValue);
 			if (hResult == 0)
 			{
 				byte[] bSkuId = new byte[pcbValue];
 				Marshal.Copy(ppbValue, bSkuId, 0, (int)pcbValue);
 				Guid pSkuId = new Guid(bSkuId);
-				hResult = SLActivateProduct(hSLC,ref pSkuId, null, null, null, null, 0);
+				hResult = SLActivateProduct(hSLC, ref pSkuId, null, null, null, null, 0);
 				if (hResult == 0)
 				{
 					SLClose(hSLC);
-					Console.WriteLine("KMS activation succeeded! Please refresh the license.");					
+					Console.WriteLine("KMS activation succeeded! Please refresh the license.");
 				}
 				else if (hResult == unchecked((int)0xC004F074))
 				{
@@ -371,10 +379,10 @@ namespace KmsTest
 				Console.WriteLine("Installation failed, Error Code:" + nErrorcode);
 				return false;
 			}
-			return true;		
+			return true;
 
 		}
-		private string ActivateOfficeProductKey(string ProductKey, Guid pKeyId)
+		private string ActivateProductKeyO(string ProductKey)
 		{
 			string nErrorcode = "";
 			ManagementObjectSearcher searcherObj = new ManagementObjectSearcher("root\\CIMV2", "SELECT Name,ID,PartialProductKey,OfflineInstallationId FROM OfficeSoftwareProtectionProduct WHERE PartialProductKey like '" + ProductKey.Substring(ProductKey.Trim().Length - 5, 5) + "' ");
@@ -383,16 +391,16 @@ namespace KmsTest
 				try
 				{
 					var results = Convert.ToUInt32(product.InvokeMethod("Activate", null));
-					Console.WriteLine("KMS activation succeeded! Please refresh the license.");					
+					Console.WriteLine("KMS activation succeeded! Please refresh the license.");
 				}
 				catch (COMException ex)
 				{
 					Console.WriteLine("0x{0:x}", Marshal.GetHRForException(ex));
 					int hr = System.Runtime.InteropServices.Marshal.GetHRForException(ex);
 					nErrorcode = "0x" + hr.ToString("X8");
-					Console.WriteLine("KMS activation failed, error code:" + nErrorcode);	
+					Console.WriteLine("KMS activation failed, error code:" + nErrorcode);
 				}
-			}			
+			}
 			return nErrorcode;
 		}
 		public bool InstallOfficeProductKey(string ProductKeys)
@@ -436,9 +444,46 @@ namespace KmsTest
 
 			return true;
 		}
+		public string ActivateOfficeProductKey(IntPtr hOSLC, string productKey, Guid pKeyId)
+		{
+			string nErrorcode = string.Empty;
+			if (LoadOSPPC("OSPPCEXT.dll") == false)
+			{
+				return ActivateProductKeyO(productKey);
+			}
+
+			uint pcbValue = 0;
+			IntPtr ppbValue = System.IntPtr.Zero;
+			SLDATATYPE peDataType = new SLDATATYPE();
+			int hResult = SLGetPKeyInformationO(hOSLC, ref pKeyId, "ProductSkuId", ref peDataType, ref pcbValue, ref ppbValue);
+			if (hResult == 0)
+			{
+				byte[] bSkuId = new byte[pcbValue];
+				Marshal.Copy(ppbValue, bSkuId, 0, (int)pcbValue);
+				Guid pSkuId = new Guid(bSkuId);
+				hResult = SLActivateProductO(hOSLC, ref pSkuId, null, null, null, null, 0);
+				if (hResult == 0)
+				{
+					SLClose(hOSLC);
+					Console.WriteLine("KMS activation succeeded! Please refresh the license.");
+				}
+				else if (hResult == unchecked((int)0xC004F074))
+				{
+					nErrorcode = "0x" + hResult.ToString("X8");
+					Console.WriteLine("KMS activation failed, error code: " + nErrorcode);
+				}
+			}
+			else
+			{
+				nErrorcode = "0x" + hResult.ToString("X8");
+				Console.WriteLine("KMS activation failed, error code: " + nErrorcode);
+			}
+			SLClose(hOSLC);
+			return nErrorcode;
+		}
 		private bool AddKMSInfor()
 		{
-			string nErrorcode = "";		
+			string nErrorcode = "";
 			ManagementObjectSearcher query = new ManagementObjectSearcher();
 			if (Convert.ToDouble(SystemVerID) < 6.2 && VersionName.Contains("Win") == false || VersionName.Contains("2010"))
 			{
@@ -466,7 +511,7 @@ namespace KmsTest
 				{
 					int hr = System.Runtime.InteropServices.Marshal.GetHRForException(ex);
 					nErrorcode = "0x" + hr.ToString("X8");
-					Console.WriteLine("Adding KMS server port failed, error code:" + nErrorcode);			
+					Console.WriteLine("Adding KMS server port failed, error code:" + nErrorcode);
 					return false;
 				}
 			}
@@ -480,7 +525,7 @@ namespace KmsTest
 			rs.AddAccessRule(new RegistryAccessRule(currentUserStr, RegistryRights.WriteKey | RegistryRights.ReadKey | RegistryRights.Delete | RegistryRights.FullControl, AccessControlType.Allow));
 
 			RegistryKey regkey = null;
-			if (Convert.ToDouble(SystemVerID) < 6.2 && VersionName.Contains("Win")==false || VersionName.Contains("2010"))
+			if (Convert.ToDouble(SystemVerID) < 6.2 && VersionName.Contains("Win") == false || VersionName.Contains("2010"))
 			{
 				regkey = OpenLMKey.OpenSubKey("SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\osppsvc.exe", true);
 				if (regkey == null)
