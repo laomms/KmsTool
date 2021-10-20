@@ -1,4 +1,4 @@
-# KMS Offline Activation Tool  
+# KMS Local Activation Tool  
 
 #### support win7/8.1/10/server2022 office2010~office2021
 
