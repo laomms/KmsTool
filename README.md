@@ -10,7 +10,15 @@ KMS激活逃不过KMS连接代理:SppExtComObj.Exe这个软件,这个工具在�
 
 
 获取数字权利证书:  
-过调用系统自带Clipup.exe中的HwidGetCurrentEx获取本机唯一硬件ID,结合系统的相应的PFN生成SessionId,然后通过GetGenuineTicket函数生成证书.
+通过调用系统自带Clipup.exe中的HwidGetCurrentEx获取本机唯一硬件ID,结合系统的相应的PFN生成SessionId,然后通过GetGenuineTicket函数生成数字证书.
+
+SLIC注入激活:  
+通过GetVolumePathNamesForVolumeNameW打开启动分区,加入相应的SLIC表信息,然后安装相应的OEM:SLIC密钥,通过对比SLIC表中的公钥来验证激活.
+
+
+
+
+
 
 
 
