@@ -13,7 +13,7 @@ KMS激活逃不过KMS连接代理:SppExtComObj.Exe这个软件,这个工具在�
 通过调用系统自带Clipup.exe(或者gatherosstate.exe)中的HwidGetCurrentEx获取本机唯一硬件ID,结合系统的相应版本的PFN生成SessionId,然后通过GetGenuineTicket函数生成数字证书.通过安装密钥向微软服务器获取用户证书,跟安装的数字证书进行对比验证激活.
 
 SLIC注入激活:  
-通过GetVolumePathNamesForVolumeNameW打开启动分区,加入某品牌的SLIC表信息,然后安装相应的OEM:SLIC密钥,通过对比SLIC表中的公钥来验证激活.
+通过GetVolumePathNamesForVolumeNameW打开启动分区,加入某品牌的SLIC表信息,然后安装相应的OEM:SLIC密钥,通过对比SLIC表中的公钥来验证激活.支持MBR和GPT分区格式.
 
 密钥激活:  
 通过SLInstallProofOfPurchase安装密钥,通过SLGetPKeyInformation获取密钥的SKUID,通过SLActivateProduct激活系统.
