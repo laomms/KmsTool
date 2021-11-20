@@ -1,4 +1,5 @@
 # KMS Local Activation Tool  
+本工具只可用来测试个人系统证书环境调试，一切与之有关的商业活动都是非法的。请支持正版软件。
 
 #### support win7/8.1/10/server2022 office2010~office2021
 
@@ -21,15 +22,7 @@ SLIC注入激活:
 通过SLInstallProofOfPurchase安装密钥,通过SLGetPKeyInformation获取密钥的SKUID,通过SLActivateProduct激活系统.
 
 
-这个工具包括5个激活模块：
 
-1、数字权利激活，适用于Win10/Win11 RTM版本及LTSB2015-LTSC2021的激活。通过硬件生成的唯一有效数字证书连接微软服务器获取永久激活。  
-2、KMS38激活，适用于Win10/Win11系统全系列，通过硬件生成的唯一有效数字证书连接微软服务器获取KMS激活，激活至2038年。  
-3、KMS本机激活，适合Office2010-Office2021激活(也适用于windows激活)。原理是在注册表中模拟KMS服务器,通过对SppExtComObj进行拦截指向本地服务器实现KMS180天激活.可设置成到期无限循环。变相达到永久激活目的。  
-4、Slic注入激活，适用于Win7全系列(除企业版外)及Server2008-Server2022常用版本激活.通过在启动分区中注入品牌电脑SLIC标识信息实现OEM离线激活。. 
-5、密钥激活，安装有效密钥并通过自动获取确认ID实现激活。   
-  
-所以在没有密钥的情况下，该工具基本上可以实现VISTA版本后的全部激活。
 
 
 
