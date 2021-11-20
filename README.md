@@ -6,7 +6,6 @@
 ![image](https://github.com/laomms/KmsTool/blob/main/kms.JPG)     
 ![image](https://github.com/laomms/KmsTool/blob/main/kms2.png)   
 
-分流网盘: https://bkkmms.herokuapp.com/BAIDUD/Activation   
 
 ##### 软件工作原理:  
 KMS本地激活:  
