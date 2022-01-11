@@ -17,7 +17,7 @@ private delegate int SkuGetUpgradeProductKeyEx(int EditionId, string Partner, in
 
  //get GenuineTicket
  [UnmanagedFunctionPointer(CallingConvention.ThisCall, CharSet=CharSet.Unicode)]
- private delegate int CreateGenuineTicketClient86(string SessionId, ref uint dwDataSize, ref IntPtr pbData);
+ private delegate int CreateGenuineTicketClient(string SessionId, ref uint dwDataSize, ref IntPtr pbData);
  
  
 ```
