@@ -16,8 +16,9 @@
 private delegate int SkuGetUpgradeProductKeyEx(int EditionId, string Partner, int ChannelEnum, ref uint dwFlagsAndAttributes, ref IntPtr pPfn); 
 
  //get GenuineTicket
- <UnmanagedFunctionPointer(CallingConvention.ThisCall, CharSet:=CharSet.Unicode)>
-Private Delegate Function CreateGenuineTicketClient(ByVal SessionId As String, ByRef dwDataSize As UInteger, ByRef pbData As IntPtr) As Integer 
+ [UnmanagedFunctionPointer(CallingConvention.ThisCall, CharSet=CharSet.Unicode)]
+ private delegate int CreateGenuineTicketClient86(string SessionId, ref uint dwDataSize, ref IntPtr pbData);
+ 
  
 ```
 ##### 软件工作原理:  
