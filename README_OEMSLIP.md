@@ -1,4 +1,4 @@
-```php
+```c
 2QBP3-289MF-9364X-37XGX-24W6P	Windows Vista Ultimate - OEM:SLP
 223JH-DDMFR-3WBTR-H3V93-28JK8	Windows Vista Starter - OEM:SLP
 4GPTT-6RYC4-F4GJK-KG77H-B9HD2	Windows Vista Home Premium - OEM:SLP
