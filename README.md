@@ -11,7 +11,7 @@
 无需远程KMS服务器，直接通过HOOK SppExtComObj.exe及在注册表中模拟KMS服务器信息获取180天的批量授权许可，可以循环使用。内置几乎所有版本的KMS密钥。
 
 ##### SLIC注入激活 [支持版本](README_OEMSLIP.md)
-基于OEM SLIC密钥的一种离线激活方式，只要有OEM:SLP密钥的系统基本上都激活。通过模拟某品牌的SLIC表信息,然后安装相应的OEM:SLIC密钥,通过对比SLIC表中的公钥来验证激活.支持MBR和GPT分区格式.适用于win7系列及server系列的激活。
+基于OEM SLIC的一种离线激活方式。一般适用于win6.1及之前的版本。通过模拟某品牌的SLIC表信息,然后安装相应的OEM:SLIC密钥,通过对比SLIC表中的公钥来验证激活.支持MBR和GPT分区格式.适用于win7系列及server系列的激活。
 
 ![image](https://github.com/laomms/KmsTool/blob/main/kms.JPG)     
 ![image](https://github.com/laomms/KmsTool/blob/main/kms2.png)   
